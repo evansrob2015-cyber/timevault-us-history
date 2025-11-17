@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>TimeVault US History — Kali's Study Space</title>
+  <title>TimeVault US History – Kali’s Lab</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
@@ -39,7 +39,6 @@
       align-items: stretch;
     }
 
-    /* APP SHELL */
     .app-shell {
       width: 100%;
       max-width: 1280px;
@@ -69,24 +68,6 @@
       }
     }
 
-    /* Extra small-screen tweaks (iPhone-ish) */
-    @media (max-width: 600px) {
-      .app-shell {
-        max-width: 100%;
-        border-radius: 0;
-      }
-      .main-pane {
-        padding: 12px 10px 14px;
-      }
-      .card {
-        padding: 10px 12px;
-      }
-      .top-title h1 {
-        font-size: 1.1rem;
-      }
-    }
-
-    /* SIDEBAR */
     .sidebar {
       background: radial-gradient(circle at top, #111827, #020617 60%);
       border-right: 1px solid var(--border-subtle);
@@ -110,16 +91,19 @@
       background: conic-gradient(from 210deg, #fbbf24, #f97316, #22d3ee, #fbbf24);
       box-shadow: 0 0 18px rgba(251, 191, 36, 0.7);
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.7rem;
-      color: #020617;
+      overflow: hidden;
     }
 
     .brand-orb::after {
-      content: "TV";
+      content: "⏳";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      color: #020617;
+      text-shadow: 0 0 6px rgba(15, 23, 42, 0.9);
     }
 
     .brand-text-main {
@@ -208,7 +192,7 @@
       background: var(--good);
     }
 
-    /* MAIN PANE */
+    /* Main */
     .main-pane {
       padding: 18px 22px 20px;
       display: flex;
@@ -679,101 +663,152 @@
       color: var(--text-muted);
     }
 
-    /* Video wrapper */
-    .video-wrapper {
-      margin-top: 8px;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid rgba(31, 41, 55, 0.8);
-      background: #000;
+    /* Media & Timeline */
+    .media-grid {
+      margin-top: 6px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 14px;
     }
 
-    .video-wrapper iframe {
+    @media (max-width: 900px) {
+      .media-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .video-search-input {
       width: 100%;
-      height: 0;
-      border: 0;
-      display: block;
-      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-pill);
+      padding: 7px 11px;
+      border: 1px solid var(--border-subtle);
+      background: #020617;
+      color: var(--text-main);
+      font-size: 0.8rem;
+      outline: none;
     }
 
-    /* LOADER OVERLAY */
-    .loader-overlay {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at top, #020617, #000);
+    .video-search-input:focus {
+      border-color: var(--accent-strong);
+      box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.4);
+    }
+
+    .video-results {
+      margin-top: 8px;
+      list-style: none;
+      max-height: 210px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .video-result-item {
+      padding: 7px 6px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-size: 0.78rem;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 40;
+      flex-direction: column;
+      gap: 2px;
     }
 
-    .loader-inner {
-      text-align: center;
-      padding: 24px 22px;
-      border-radius: 20px;
-      background: radial-gradient(circle at top left, #111827, #020617);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+    .video-result-item:hover {
+      border-color: rgba(148, 163, 184, 0.8);
+      background: rgba(15, 23, 42, 0.8);
     }
 
-    .loader-orb {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      margin: 0 auto 10px;
-      background: conic-gradient(from 210deg, #fbbf24, #f97316, #22d3ee, #fbbf24);
-      box-shadow: 0 0 22px rgba(251, 191, 36, 0.85);
+    .video-result-title {
+      font-weight: 500;
+    }
+
+    .video-result-meta {
+      color: var(--text-muted);
+      font-size: 0.7rem;
+    }
+
+    .video-frame-shell {
       position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      border-radius: 16px;
       overflow: hidden;
-      animation: spin 1.4s linear infinite;
+      border: 1px solid var(--border-subtle);
+      background: #020617;
     }
 
-    .loader-orb::after {
-      content: "TV";
+    .video-frame-shell iframe {
       position: absolute;
       inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .video-meta-text {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .video-meta-text strong {
+      color: var(--text-main);
+    }
+
+    .timeline-strip {
+      margin-top: 10px;
+      border-radius: 14px;
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      padding: 8px 10px;
+      font-size: 0.76rem;
+    }
+
+    .timeline-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .timeline-pill {
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      padding: 2px 8px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .timeline-pill span {
+      color: var(--accent-strong);
+      margin-right: 3px;
+    }
+
+    /* Loading shimmer for iframe */
+    .loading-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        120deg,
+        rgba(15, 23, 42, 0.9),
+        rgba(31, 41, 55, 0.9),
+        rgba(15, 23, 42, 0.9)
+      );
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
-      font-size: 0.8rem;
-      color: #020617;
-    }
-
-    .loader-text-main {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .loader-text-sub {
       font-size: 0.8rem;
       color: var(--text-muted);
     }
 
-    .loader-hidden {
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease-out;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
     }
   </style>
 </head>
 <body>
-  <!-- LOADER -->
-  <div id="loader" class="loader-overlay">
-    <div class="loader-inner">
-      <div class="loader-orb"></div>
-      <div class="loader-text-main">Spinning up TimeVault for Kali…</div>
-      <div class="loader-text-sub">Loading flashcards, mini-games, and DBQ moves. No homework writing, promise.</div>
-    </div>
-  </div>
-
   <div class="app-shell">
     <!-- Sidebar -->
     <aside class="sidebar">
@@ -782,7 +817,7 @@
           <div class="brand-orb"></div>
           <div>
             <div class="brand-text-main">TimeVault US History</div>
-            <div class="brand-text-sub">Kali’s practice lab • Curiosity • Integrity</div>
+            <div class="brand-text-sub">Kali’s Practice • Curiosity • Integrity</div>
           </div>
         </div>
         <div class="nav-group-title">Learn</div>
@@ -798,10 +833,6 @@
           <div class="nav-item" data-section="games">
             <span class="icon">🎮</span>
             <span>Mini-Games</span>
-          </div>
-          <div class="nav-item" data-section="timeline">
-            <span class="icon">📅</span>
-            <span>Timeline Lab</span>
           </div>
           <div class="nav-item" data-section="flashcards">
             <span class="icon">🧠</span>
@@ -837,11 +868,11 @@
       <header class="top-header">
         <div class="top-title">
           <h1 id="page-title">Home</h1>
-          <p id="page-subtitle">Welcome back, Kali. Where do you want to jump today?</p>
+          <p id="page-subtitle">Hi, Kali. Welcome back to the time machine. Where do you want to jump today?</p>
         </div>
         <div class="streak-chip" title="Study streak">
           <span class="emoji">🔥</span>
-          <span>3-day streak • Keep going</span>
+          <span>Sample streak • Build the habit</span>
         </div>
       </header>
 
@@ -858,20 +889,10 @@
 
           <!-- HOME SECTION -->
           <div class="section active" id="section-home">
-            <p class="tag-muted">Pick your next move. Each session keeps you in bounds with your school&apos;s AI policy while actually making history stick.</p>
+            <p class="tag-muted">
+              Pick your next move. Each session keeps you in bounds with Brentwood’s AI policy while actually making history stick.
+            </p>
             <div class="unit-grid" style="margin-top:10px;">
-              <!-- Market Revolution featured module -->
-              <div class="unit-card">
-                <div class="unit-chip">Current Unit</div>
-                <div class="unit-title">Impact of the Market Revolution</div>
-                <div class="unit-meta">
-                  <span>Concept map &amp; quick quiz</span>
-                  <span>⚙️</span>
-                </div>
-                <div class="progress-bar-shell">
-                  <div class="progress-bar-fill" style="width:10%"></div>
-                </div>
-              </div>
               <div class="unit-card">
                 <div class="unit-chip">5–7 min</div>
                 <div class="unit-title">Warm-Up Timeline: Colonies → Revolution</div>
@@ -896,13 +917,13 @@
               </div>
               <div class="unit-card">
                 <div class="unit-chip">15–20 min</div>
-                <div class="unit-title">Mini-Scene: Voices of Reconstruction</div>
+                <div class="unit-title">Impact of the Market Revolution</div>
                 <div class="unit-meta">
-                  <span>Cinematic module</span>
+                  <span>Cinematic module + video</span>
                   <span>🎬</span>
                 </div>
                 <div class="progress-bar-shell">
-                  <div class="progress-bar-fill" style="width:60%"></div>
+                  <div class="progress-bar-fill" style="width:10%"></div>
                 </div>
               </div>
               <div class="unit-card">
@@ -917,42 +938,17 @@
                 </div>
               </div>
             </div>
-
-            <!-- Market Revolution Video + Channels -->
-            <div class="card" style="margin-top:12px; padding:10px 12px;">
-              <div class="card-header">
-                <span class="card-title">Watch &amp; Think: Market Revolution</span>
-                <span class="pill">Parent-curated clip</span>
-              </div>
-              <p class="tag-muted">
-                Use a short video to anchor the story. As you watch, jot down: 2 ways work changed, 1 thing that stayed the same.
-              </p>
-              <div class="video-wrapper">
-                <!-- Replace VIDEO_ID_HERE with a video from one of the channels below -->
-                <iframe
-                  src="https://www.youtube.com/embed/VIDEO_ID_HERE"
-                  title="Market Revolution overview"
-                  allowfullscreen
-                ></iframe>
-              </div>
-              <p style="margin-top:8px; font-size:0.8rem; color:var(--text-muted);">
-                Suggested channels to choose from:
-                <strong>The Gilder Lehrman Institute of American History</strong>,
-                <strong>ColumbiaLearn</strong>,
-                <strong>Big Think</strong>,
-                <strong>National Constitution Center</strong>,
-                <strong>Norton History</strong>.
-              </p>
-            </div>
           </div>
 
           <!-- UNITS SECTION -->
           <div class="section" id="section-units">
-            <p class="tag-muted">Jump by era or theme. These are tuned to the <em>Give Me Liberty</em> sequence but only used for practice and understanding.</p>
+            <p class="tag-muted">
+              Jump by era or theme. These are tuned to the <em>Give Me Liberty</em> sequence but only used for practice and understanding.
+            </p>
             <div class="unit-grid">
               <div class="unit-card">
                 <div class="unit-chip">Unit 1</div>
-                <div class="unit-title">Pre-Columbian Worlds &amp; First Contacts</div>
+                <div class="unit-title">Pre-Columbian Worlds & First Contacts</div>
                 <div class="unit-meta">
                   <span>Maps • Sources</span>
                   <span>🌎</span>
@@ -960,17 +956,8 @@
                 <div class="progress-bar-shell"><div class="progress-bar-fill" style="width:22%"></div></div>
               </div>
               <div class="unit-card">
-                <div class="unit-chip">Unit 2</div>
-                <div class="unit-title">Market Revolution &amp; New Economies</div>
-                <div class="unit-meta">
-                  <span>Labor • Technology</span>
-                  <span>⚙️</span>
-                </div>
-                <div class="progress-bar-shell"><div class="progress-bar-fill" style="width:5%"></div></div>
-              </div>
-              <div class="unit-card">
                 <div class="unit-chip">Unit 3</div>
-                <div class="unit-title">Revolution &amp; the Experiment of 1787</div>
+                <div class="unit-title">Revolution & the Experiment of 1787</div>
                 <div class="unit-meta">
                   <span>Debates • Games</span>
                   <span>⚖️</span>
@@ -988,7 +975,7 @@
               </div>
               <div class="unit-card">
                 <div class="unit-chip">Theme</div>
-                <div class="unit-title">Migration &amp; Borders</div>
+                <div class="unit-title">Migration & Borders</div>
                 <div class="unit-meta">
                   <span>Case studies</span>
                   <span>🧳</span>
@@ -1018,7 +1005,7 @@
                 <div class="game-desc">Balance geography, economy, and politics to see how different colonies evolve. No grades, just consequences.</div>
                 <div class="pill-row">
                   <div class="pill-sm">Colonial era</div>
-                  <div class="pill-sm">Cause &amp; effect</div>
+                  <div class="pill-sm">Cause & effect</div>
                 </div>
               </div>
               <div class="game-card">
@@ -1042,54 +1029,11 @@
             </div>
           </div>
 
-          <!-- TIMELINE SECTION -->
-          <div class="section" id="section-timeline">
-            <p class="tag-muted">
-              Practice your chronological reasoning. Start with the Market Revolution, then we can add more eras.
-            </p>
-
-            <div class="card" style="margin-top:8px; padding:10px 12px;">
-              <div class="card-header">
-                <span class="card-title">Market Revolution Timeline</span>
-                <span class="pill">1815–1840 (approx.)</span>
-              </div>
-              <p style="font-size:0.82rem; color:var(--text-muted);">
-                These are simplified anchor events to help you keep the big picture straight. Dates are rounded to keep it manageable.
-              </p>
-              <ul id="timeline-list" style="margin-top:8px; list-style:none; font-size:0.8rem; color:var(--text-muted);">
-                <!-- JS will fill this in -->
-              </ul>
-              <p style="margin-top:8px; font-size:0.78rem; color:var(--text-muted);">
-                Hint: Try telling the story out loud in 3–4 sentences using these dates as your backbone.
-              </p>
-            </div>
-
-            <div class="card" style="margin-top:10px; padding:10px 12px;">
-              <div class="card-header">
-                <span class="card-title">Which Came First?</span>
-                <span class="pill" id="timeline-progress-pill">Timeline practice: 0 attempts</span>
-              </div>
-              <p style="font-size:0.8rem; color:var(--text-muted);">
-                You&apos;ll see two events. Choose which one happened first. No grades, just reps. Your streak lives in this browser only (local to this device).
-              </p>
-              <div style="margin-top:8px; font-size:0.9rem;">
-                <div id="eventA" style="margin-bottom:6px;">Event A</div>
-                <div id="eventB" style="margin-bottom:6px;">Event B</div>
-              </div>
-              <div style="margin-top:6px; display:flex; gap:8px; flex-wrap:wrap;">
-                <button id="btnA" class="btn-ghost">A came first</button>
-                <button id="btnB" class="btn-ghost">B came first</button>
-                <button id="btnNewPair" class="btn-ghost">New pair</button>
-              </div>
-              <p id="timeline-feedback" style="margin-top:8px; font-size:0.8rem; color:var(--accent-strong);">
-                Pick an answer to check yourself.
-              </p>
-            </div>
-          </div>
-
           <!-- FLASHCARDS SECTION -->
           <div class="section" id="section-flashcards">
-            <p class="tag-muted">Tap to flip. These are examples of how the flashcard lab works — always pushing you to explain ideas, not just peek at answers.</p>
+            <p class="tag-muted">
+              Tap to flip. These are examples of how the flashcard lab works — always pushing you to explain ideas, not just peek at answers.
+            </p>
             <div class="flashcard-shell">
               <div class="flashcard" id="flashcard">
                 <div class="flashcard-label">Term</div>
@@ -1159,28 +1103,30 @@
 
           <!-- PARENT SECTION -->
           <div class="section" id="section-parent">
-            <p class="tag-muted">Snapshot for parents/guardians. No spying on assignments—just patterns, progress, and conversation starters.</p>
+            <p class="tag-muted">
+              Snapshot for parents/guardians. No spying on assignments—just patterns, progress, and conversation starters.
+            </p>
             <div class="parent-grid">
               <div class="card" style="padding:10px 12px;">
                 <div class="card-header">
                   <span class="card-title">Progress Overview</span>
-                  <span class="pill">Local to this device</span>
+                  <span class="pill">Sample Data</span>
                 </div>
                 <div class="metric-row">
-                  <span class="metric-label">Timeline questions attempted</span>
-                  <span class="metric-value" id="parent-timeline-attempts">0</span>
+                  <span class="metric-label">Overall practice completion</span>
+                  <span class="metric-value">42%</span>
                 </div>
                 <div class="metric-row">
-                  <span class="metric-label">Timeline questions correct</span>
-                  <span class="metric-value" id="parent-timeline-correct">0</span>
+                  <span class="metric-label">Timeline confidence</span>
+                  <span class="metric-value">Medium</span>
                 </div>
                 <div class="metric-row">
-                  <span class="metric-label">Estimated timeline accuracy</span>
-                  <span class="metric-value" id="parent-timeline-accuracy">–</span>
+                  <span class="metric-label">Primary source skills</span>
+                  <span class="metric-value" style="color:var(--good);">Improving</span>
                 </div>
                 <div class="metric-row">
                   <span class="metric-label">Last session length</span>
-                  <span class="metric-value">Sample: 18 min</span>
+                  <span class="metric-value">18 min</span>
                 </div>
                 <div class="sass-meter">
                   <span>Sass Meter: Engagement vibe</span>
@@ -1203,7 +1149,7 @@
           </div>
         </section>
 
-        <!-- RIGHT COLUMN: guide / sidebar -->
+        <!-- RIGHT COLUMN: session coach -->
         <aside class="card">
           <div class="card-header">
             <span class="card-title">Session Coach</span>
@@ -1211,31 +1157,409 @@
           </div>
           <div style="font-size:0.82rem; color:var(--text-muted);">
             <p id="session-tip">
-              Start with the Impact of the Market Revolution module, then do a 5-card flash review. Tiny reps win over heroic last-minute cram sessions.
+              Start with one micro-burst game, then do a 5-card flash review. Tiny reps win over heroic last-minute cram sessions.
             </p>
             <div style="margin-top:10px;">
               <span class="tag-muted">Suggested path:</span>
               <ul style="margin-top:4px; list-style:none;">
-                <li style="padding:3px 0;">1. ⚙️ Impact of the Market Revolution module</li>
-                <li style="padding:3px 0;">2. 📅 Timeline Lab: Which Came First?</li>
-                <li style="padding:3px 0;">3. 🧠 Flashcard Sprint: Founding Documents</li>
-                <li style="padding:3px 0;">4. 📜 DBQ Move Map walkthrough</li>
+                <li style="padding:3px 0;">1. 🎮 Reconstruct the Road to War</li>
+                <li style="padding:3px 0;">2. 🧠 Flashcard Sprint: Founding Documents</li>
+                <li style="padding:3px 0;">3. 🎬 Impact of the Market Revolution video</li>
               </ul>
             </div>
           </div>
         </aside>
       </div>
+
+      <!-- MEDIA & TIMELINE CARD -->
+      <section class="card" style="margin-top:12px;">
+        <div class="card-header">
+          <span class="card-title">Video Library & Timeline</span>
+          <span class="pill">Curated channels only • No YouTube rabbit holes</span>
+        </div>
+        <div class="media-grid">
+          <!-- LEFT: search + list -->
+          <div>
+            <p class="tag-muted">
+              Type a topic and pick a video. Try: <em>“Market Revolution”</em>, <em>“Civil Rights”</em>, <em>“Great Depression”</em>, <em>“Reconstruction”</em>.
+            </p>
+            <input
+              id="video-search-input"
+              class="video-search-input"
+              placeholder="Search curated videos (topic, era, or period)..."
+            />
+            <ul id="video-results" class="video-results"></ul>
+
+            <div class="timeline-strip">
+              <div class="tag-muted">Chronological spine (APUSH-ish):</div>
+              <div class="timeline-row" id="timeline-row">
+                <!-- Pills injected by JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: video embed + info -->
+          <div>
+            <div class="video-frame-shell">
+              <div class="loading-overlay" id="video-loading">Loading time tunnel…</div>
+              <iframe
+                id="video-frame"
+                src=""
+                title="US History video"
+                allowfullscreen
+                referrerpolicy="strict-origin-when-cross-origin"
+              ></iframe>
+            </div>
+            <div class="video-meta-text">
+              <div><strong id="video-title">Impact of the Market Revolution – Eric Foner (Norton History)</strong></div>
+              <div id="video-meta">Channel: Norton History • Era: Early Republic & Market Revolution (1800–1848)</div>
+              <div style="margin-top:6px;">
+                <span class="tag-muted">
+                  These videos are for context, review, and “lightbulb moments” — not for copying answers into homework.
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 
   <script>
-    // Section switching via sidebar
+    // --- VIDEO LIBRARY (your curated list wired in) ---
+
+    const videoLibrary = [
+      // A. Cross-Period Survey
+      {
+        id: "videoseries?list=PLtyN34w6H7y6m9kC5XHzTeziYGZ41UQtF",
+        title: "US History Overview playlist",
+        channel: "Khan Academy",
+        era: "Jamestown → Modern America",
+        years: "c. 1607–present",
+        period: "Survey",
+        tags: ["overview", "review", "big picture", "jamestown", "civil war", "modern"],
+        type: "playlist"
+      },
+      {
+        id: "videoseries?list=PLVggCKD8PzezOKldtzRzTjwuwyuiLVFjT",
+        title: "AP US History Study Guide playlist",
+        channel: "Gilder Lehrman Institute",
+        era: "APUSH Periods 1–9",
+        years: "1491–present",
+        period: "Survey",
+        tags: ["farrer", "fÃ³ner", "apush", "study guide", "periods"],
+        type: "playlist"
+      },
+      {
+        id: "ewzrit2mMLM",
+        title: "Eric Foner on Understanding Our History",
+        channel: "Big Think",
+        era: "Meta / Historiography",
+        years: "n/a",
+        period: "Survey",
+        tags: ["why history matters", "memory", "eric foner", "historiography"]
+      },
+      {
+        id: "PhnoQRzQJ60",
+        title: "Is American History Cyclical or Progressive?",
+        channel: "Big Think",
+        era: "Meta / Long Arc",
+        years: "n/a",
+        period: "Survey",
+        tags: ["ken burns", "cycles", "progress", "crisis"]
+      },
+
+      // B. Period 1–2
+      {
+        id: "Ht0FW7RwRmc",
+        title: "Native American societies before contact",
+        channel: "Khan Academy",
+        era: "Indigenous America",
+        years: "pre-1492",
+        period: "1",
+        tags: ["native", "indigenous", "pre-contact", "1491"]
+      },
+      {
+        id: "pLijVYVDKlc",
+        title: "The Columbian Exchange",
+        channel: "Khan Academy",
+        era: "Early Contact",
+        years: "1492+",
+        period: "1",
+        tags: ["columbian exchange", "atlantic world", "disease", "trade"]
+      },
+      {
+        id: "uWj0GCvn_Oo",
+        title: "Spanish colonization | Period 1: 1491–1607",
+        channel: "Khan Academy",
+        era: "Spanish Empire",
+        years: "1500s",
+        period: "1",
+        tags: ["spanish", "colonization", "encomienda"]
+      },
+      {
+        id: "ghgPq2wjQUQ",
+        title: "US History Overview 1: Jamestown to the Civil War",
+        channel: "Khan Academy",
+        era: "Jamestown → Civil War",
+        years: "1607–1865",
+        period: "Survey",
+        tags: ["overview", "jamestown", "civil war", "long arc"]
+      },
+
+      // C. Period 3: Revolution & Founding
+      {
+        id: "ilOhWwexHnI",
+        title: "Causes of the American Revolution: Parent-Child Analogies",
+        channel: "Mr. Beat",
+        era: "Road to Revolution",
+        years: "1760s–1770s",
+        period: "3",
+        tags: ["american revolution", "taxes", "salutary neglect", "parent child"]
+      },
+      {
+        id: "Dcvc5Q4iNJU",
+        title: "The American Revolution: Telling Our Origin Story",
+        channel: "PBS Origins",
+        era: "Revolution",
+        years: "1770s–1780s",
+        period: "3",
+        tags: ["origin story", "memory", "revolution", "myth"]
+      },
+      {
+        id: "6bF3Jsrv_yM",
+        title: "Separation of Powers | Constitution 101",
+        channel: "National Constitution Center",
+        era: "Constitution & Founding",
+        years: "1787–1789",
+        period: "3",
+        tags: ["constitution", "separation of powers", "branches"]
+      },
+      {
+        id: "-tnfrBMXiqE",
+        title: "The Bill of Rights in Less Than Two Minutes",
+        channel: "Mr. Beat",
+        era: "Early Republic",
+        years: "1791",
+        period: "3",
+        tags: ["bill of rights", "amendments", "rights"]
+      },
+      {
+        id: "ctAOE9QMj-k",
+        title: "Why is the Constitution Relevant Today?",
+        channel: "Mr. Beat",
+        era: "Constitution & Now",
+        years: "1787–present",
+        period: "3",
+        tags: ["constitution", "living document", "civics"]
+      },
+
+      // D. Period 4: Market Revolution / Early Republic
+      {
+        id: "UiMak5pVvfY",
+        title: "David Shi on the Market Revolution",
+        channel: "Norton History",
+        era: "Market Revolution",
+        years: "early 1800s",
+        period: "4",
+        tags: ["market revolution", "industrialization", "society"]
+      },
+      {
+        id: "JUrLjs4IRcc",
+        title: "Eric Foner on the Market Revolution",
+        channel: "Norton History",
+        era: "Market Revolution",
+        years: "early 1800s",
+        period: "4",
+        tags: ["eric foner", "market revolution", "labor", "politics"]
+      },
+
+      // E. Period 5: Civil War & Reconstruction
+      {
+        id: "dwralA6-yHM",
+        title: "MOOC | The Compromise of 1850",
+        channel: "ColumbiaLearn",
+        era: "Sectional Crisis",
+        years: "1850s",
+        period: "5",
+        tags: ["compromise of 1850", "slavery", "sectionalism"]
+      },
+      {
+        id: "Zvu4XXZprcw",
+        title: "Lincoln, the Republican Party & the War",
+        channel: "ColumbiaLearn",
+        era: "Civil War Politics",
+        years: "1860s",
+        period: "5",
+        tags: ["lincoln", "republican party", "civil war"]
+      },
+      {
+        id: "oHoSw3va7yk",
+        title: "How Spy Balloons Changed the Civil War",
+        channel: "PBS Origins",
+        era: "Civil War Technology",
+        years: "1860s",
+        period: "5",
+        tags: ["civil war", "technology", "surveillance"]
+      },
+      {
+        id: "LgsB7thsFWQ",
+        title: "Lectures in History: Reconstruction & America's Story",
+        channel: "American History TV (C-SPAN)",
+        era: "Reconstruction",
+        years: "1865–1877",
+        period: "5",
+        tags: ["reconstruction", "memory", "civil war aftermath"]
+      },
+      {
+        id: "SHbBiKHWozE",
+        title: "MOOC | \"Black Reconstruction\"",
+        channel: "ColumbiaLearn",
+        era: "Reconstruction & Memory",
+        years: "late 1800s",
+        period: "5",
+        tags: ["du bois", "black reconstruction", "historiography"]
+      },
+
+      // F. Period 6: Gilded Age / Industrialization
+      {
+        id: "-vVxxmsDFJk",
+        title: "The Triangle Fire",
+        channel: "ColumbiaLearn",
+        era: "Industrialization & Reform",
+        years: "1911 (early 20th c)",
+        period: "6/7",
+        tags: ["triangle fire", "labor", "gilded age", "progressive"]
+      },
+
+      // G. Period 7: Great Migration, Depression, New Deal, WWII
+      {
+        id: "PpPLs8pG2kI",
+        title: "The Great Migration: A City Transformed",
+        channel: "PBS Origins",
+        era: "Great Migration",
+        years: "1910s–1970s",
+        period: "7/8",
+        tags: ["great migration", "urban", "race", "chicago", "detroit"]
+      },
+      {
+        id: "IjQ8jLYvv1Q",
+        title: "Lecture on The Great Depression",
+        channel: "American History TV (C-SPAN)",
+        era: "Great Depression",
+        years: "1930s",
+        period: "7",
+        tags: ["great depression", "economy", "new deal"]
+      },
+      {
+        id: "r9hFVr-zmIg",
+        title: "How the New Deal Left Out African-Americans",
+        channel: "American History TV (C-SPAN)",
+        era: "New Deal & Race",
+        years: "1930s–1940s",
+        period: "7",
+        tags: ["new deal", "race", "exclusion"]
+      },
+      {
+        id: "videoseries?list=PLSuwqsAnJMtw4xt9P690B7IE5vp4cxgPw",
+        title: "Women and World War II (playlist)",
+        channel: "ColumbiaLearn",
+        era: "World War II Home Front",
+        years: "1940s",
+        period: "7",
+        tags: ["world war ii", "women", "labor", "home front"],
+        type: "playlist"
+      },
+
+      // H. Period 8: Civil Rights & Cold War
+      {
+        id: "dJqA6PQRh3U",
+        title: "Sound Smart: The Freedom Rides",
+        channel: "HISTORY Channel",
+        era: "Civil Rights Movement",
+        years: "1961",
+        period: "8",
+        tags: ["freedom rides", "civil rights", "nonviolence"]
+      },
+      {
+        id: "fiNLaSj69Dw",
+        title: "7 Civil Rights Leaders You Need to Know",
+        channel: "HISTORY Channel",
+        era: "Civil Rights Movement",
+        years: "1950s–1960s",
+        period: "8",
+        tags: ["civil rights", "leaders", "mlk", "ella baker"]
+      },
+      {
+        id: "0UOTLqmRr2U",
+        title: "Civil Rights Turning Points in Every Decade",
+        channel: "HISTORY Channel",
+        era: "Long Civil Rights Movement",
+        years: "20th century",
+        period: "8/9",
+        tags: ["civil rights", "turning points", "decades"]
+      },
+      {
+        id: "vfwJJapQ5KY",
+        title: "Freedom Summer of 1964: Black Americans' Fight for Voting Rights",
+        channel: "American History TV (C-SPAN)",
+        era: "Voting Rights",
+        years: "1964",
+        period: "8",
+        tags: ["freedom summer", "voting rights", "mississippi"]
+      },
+
+      // I. Period 9 & long view
+      {
+        id: "o0ONByhAHC4",
+        title: "Why the wars America starts are unwinnable",
+        channel: "Big Think",
+        era: "Vietnam → Iraq/Afghanistan",
+        years: "1960s–present",
+        period: "9",
+        tags: ["foreign policy", "war", "vietnam", "iraq", "afghanistan"]
+      },
+      {
+        id: "zEBhiNRiNCI",
+        title: "The neoliberal era is ending. What comes next?",
+        channel: "Big Think",
+        era: "Late 20th–21st Century",
+        years: "1980s–present",
+        period: "9",
+        tags: ["neoliberalism", "economy", "reagan", "globalization"]
+      },
+
+      // J. Extra Khan deep-dive playlist
+      {
+        id: "videoseries?list=PLSQl0a2vh4HAZzL9GDzfUF_e6XjQi0uSk",
+        title: "Worlds collide (1491–1607) playlist",
+        channel: "Khan Academy",
+        era: "Pre-contact & Early Colonization",
+        years: "1491–1607",
+        period: "1",
+        tags: ["period 1", "apush", "worlds collide"],
+        type: "playlist"
+      }
+    ];
+
+    const timelineEntries = [
+      { label: "Indigenous America & Contact", years: "pre-1492–1607" },
+      { label: "Colonies & Empire", years: "1607–1754" },
+      { label: "Revolution & Founding", years: "1754–1800" },
+      { label: "Early Republic & Market Revolution", years: "1800–1848" },
+      { label: "Civil War & Reconstruction", years: "1848–1877" },
+      { label: "Gilded Age & Industrialization", years: "1877–1898" },
+      { label: "Progressive Era, Depression, WWII", years: "1898–1945" },
+      { label: "Cold War & Civil Rights", years: "1945–1980" },
+      { label: "Recent History & Globalization", years: "1980–present" }
+    ];
+
+    // --- Section switching via sidebar ---
     const navItems = document.querySelectorAll('.nav-item');
     const sections = {
       home: document.getElementById('section-home'),
       units: document.getElementById('section-units'),
       games: document.getElementById('section-games'),
-      timeline: document.getElementById('section-timeline'),
       flashcards: document.getElementById('section-flashcards'),
       dbq: document.getElementById('section-dbq'),
       parent: document.getElementById('section-parent')
@@ -1245,10 +1569,9 @@
     const pageSubtitle = document.getElementById('page-subtitle');
 
     const subtitles = {
-      home: 'Welcome back, Kali. Where do you want to jump today?',
+      home: 'Hi, Kali. Welcome back to the time machine. Where do you want to jump today?',
       units: 'See the whole course like a map instead of a fog.',
       games: 'Play your way into understanding. Zero grades, maximum reps.',
-      timeline: 'Train your brain to feel the order of events, not just memorize dates.',
       flashcards: 'Turn memorizing dust into quick, repeatable recall practice.',
       dbq: 'Learn the DBQ moves so class day feels less mysterious.',
       parent: 'High-level patterns so grown-ups can support without hovering.'
@@ -1257,20 +1580,17 @@
     navItems.forEach(item => {
       item.addEventListener('click', () => {
         const target = item.getAttribute('data-section');
-        // Activate nav
         navItems.forEach(i => i.classList.remove('active'));
         item.classList.add('active');
-        // Switch sections
         Object.entries(sections).forEach(([key, el]) => {
           el.classList.toggle('active', key === target);
         });
-        // Update title/subtitle
         pageTitle.textContent = item.innerText.trim();
         pageSubtitle.textContent = subtitles[target];
       });
     });
 
-    // Home micro/deep toggle (visual only for now)
+    // Home micro/deep toggle (visual only)
     const homeTabs = document.querySelectorAll('[data-home-tab]');
     homeTabs.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1279,7 +1599,7 @@
       });
     });
 
-    // Simple flashcard example
+    // --- Simple flashcard example ---
     const flashcard = document.getElementById('flashcard');
     const termEl = document.getElementById('flashcard-term');
     const bodyEl = document.getElementById('flashcard-body');
@@ -1313,7 +1633,6 @@
     }
 
     flashcard.addEventListener('click', (e) => {
-      // avoid flipping when clicking the next button
       if (e.target === nextBtn) return;
       flipped = !flipped;
       renderCard();
@@ -1346,144 +1665,88 @@
       });
     });
 
-    // ---- Timeline Lab: Market Revolution + localStorage tracking ----
-    const marketEvents = [
-      { year: 1815, label: 'End of the War of 1812; postwar expansion begins' },
-      { year: 1817, label: 'Construction of the Erie Canal begins' },
-      { year: 1825, label: 'Erie Canal opens, linking Great Lakes to New York City' },
-      { year: 1828, label: 'Baltimore & Ohio Railroad chartered' },
-      { year: 1831, label: 'Cyrus McCormick patents early mechanical reaper' },
-      { year: 1834, label: 'Lowell mill strike highlights factory labor tensions' },
-      { year: 1837, label: 'Panic of 1837 rocks the U.S. economy' }
-    ];
+    // --- Timeline pills ---
+    const timelineRow = document.getElementById('timeline-row');
+    timelineEntries.forEach(entry => {
+      const pill = document.createElement('div');
+      pill.className = 'timeline-pill';
+      pill.innerHTML = `<span>${entry.years}</span>${entry.label}`;
+      timelineRow.appendChild(pill);
+    });
 
-    const timelineList = document.getElementById('timeline-list');
-    const eventAEl = document.getElementById('eventA');
-    const eventBEl = document.getElementById('eventB');
-    const feedbackEl = document.getElementById('timeline-feedback');
-    const btnA = document.getElementById('btnA');
-    const btnB = document.getElementById('btnB');
-    const btnNewPair = document.getElementById('btnNewPair');
-    const timelineProgressPill = document.getElementById('timeline-progress-pill');
+    // --- Video search & player ---
+    const videoSearchInput = document.getElementById('video-search-input');
+    const videoResultsEl = document.getElementById('video-results');
+    const videoFrame = document.getElementById('video-frame');
+    const videoTitleEl = document.getElementById('video-title');
+    const videoMetaEl = document.getElementById('video-meta');
+    const videoLoading = document.getElementById('video-loading');
 
-    const parentAttemptsEl = document.getElementById('parent-timeline-attempts');
-    const parentCorrectEl = document.getElementById('parent-timeline-correct');
-    const parentAccuracyEl = document.getElementById('parent-timeline-accuracy');
-
-    // localStorage keys
-    const LS_KEY_ATTEMPTS = 'timevault_timeline_attempts';
-    const LS_KEY_CORRECT = 'timevault_timeline_correct';
-
-    function getStat(key) {
-      const raw = localStorage.getItem(key);
-      const n = parseInt(raw, 10);
-      return isNaN(n) ? 0 : n;
+    function playVideo(index) {
+      const v = videoLibrary[index];
+      if (!v) return;
+      videoLoading.style.display = 'flex';
+      const base = 'https://www.youtube.com/embed/';
+      videoFrame.src = base + v.id;
+      videoTitleEl.textContent = v.title;
+      videoMetaEl.textContent = `Channel: ${v.channel} • Era: ${v.era} (${v.years})`;
     }
 
-    function setStat(key, value) {
-      localStorage.setItem(key, String(value));
-    }
-
-    function updateTimelineStatsDisplay() {
-      const attempts = getStat(LS_KEY_ATTEMPTS);
-      const correct = getStat(LS_KEY_CORRECT);
-      if (timelineProgressPill) {
-        if (attempts === 0) {
-          timelineProgressPill.textContent = 'Timeline practice: 0 attempts';
-        } else {
-          timelineProgressPill.textContent = `Timeline practice: ${attempts} attempts`;
-        }
-      }
-      if (parentAttemptsEl) parentAttemptsEl.textContent = attempts;
-      if (parentCorrectEl) parentCorrectEl.textContent = correct;
-      if (parentAccuracyEl) {
-        if (attempts === 0) {
-          parentAccuracyEl.textContent = '–';
-        } else {
-          const pct = Math.round((correct / attempts) * 100);
-          parentAccuracyEl.textContent = pct + '%';
-        }
-      }
-    }
-
-    // Render ordered timeline
-    if (timelineList) {
-      const sorted = [...marketEvents].sort((a, b) => a.year - b.year);
-      sorted.forEach(ev => {
+    function renderVideoResults(list) {
+      videoResultsEl.innerHTML = '';
+      list.forEach((v, idx) => {
         const li = document.createElement('li');
-        li.textContent = ev.year + ' — ' + ev.label;
-        li.style.padding = '3px 0';
-        timelineList.appendChild(li);
+        li.className = 'video-result-item';
+        li.dataset.index = v._index;
+        li.innerHTML = `
+          <div class="video-result-title">${v.title}</div>
+          <div class="video-result-meta">${v.channel} • ${v.era} • ${v.years}</div>
+        `;
+        li.addEventListener('click', () => playVideo(v._index));
+        videoResultsEl.appendChild(li);
+      });
+      if (!list.length) {
+        const li = document.createElement('li');
+        li.className = 'video-result-item';
+        li.innerHTML = `<div class="video-result-meta">No matches in the curated list yet. Try a bigger idea like "Civil Rights" or "Reconstruction".</div>`;
+        videoResultsEl.appendChild(li);
+      }
+    }
+
+    function searchVideos(query) {
+      const q = query.toLowerCase().trim();
+      let enriched = videoLibrary.map((v, i) => ({ ...v, _index: i }));
+      if (!q) {
+        // default: a few high-yield videos across eras
+        const defaults = ["Eric Foner on the Market Revolution", "Native American societies before contact", "The Great Migration: A City Transformed", "Sound Smart: The Freedom Rides", "Lecture on The Great Depression", "The neoliberal era is ending. What comes next?"];
+        enriched = enriched.filter(v => defaults.includes(v.title));
+        return enriched;
+      }
+      return enriched.filter(v => {
+        const haystack = [
+          v.title,
+          v.channel,
+          v.era,
+          v.years,
+          v.period,
+          ...(v.tags || [])
+        ].join(" ").toLowerCase();
+        return haystack.includes(q);
       });
     }
 
-    let currentPair = null;
-
-    function pickNewPair() {
-      const aIndex = Math.floor(Math.random() * marketEvents.length);
-      let bIndex = Math.floor(Math.random() * marketEvents.length);
-      while (bIndex === aIndex) {
-        bIndex = Math.floor(Math.random() * marketEvents.length);
-      }
-      const a = marketEvents[aIndex];
-      const b = marketEvents[bIndex];
-      currentPair = { a, b };
-      if (eventAEl && eventBEl && feedbackEl) {
-        eventAEl.textContent = 'A) ' + a.label + ' (' + a.year + ')';
-        eventBEl.textContent = 'B) ' + b.label + ' (' + b.year + ')';
-        feedbackEl.textContent = 'Pick an answer to check yourself.';
-        feedbackEl.style.color = 'var(--accent-strong)';
-      }
-    }
-
-    function checkAnswer(choice) {
-      if (!currentPair || !feedbackEl) return;
-      const { a, b } = currentPair;
-      let correctChoice = null;
-      if (a.year < b.year) correctChoice = 'A';
-      else if (b.year < a.year) correctChoice = 'B';
-      else correctChoice = 'either';
-
-      // Update stats
-      let attempts = getStat(LS_KEY_ATTEMPTS);
-      let correct = getStat(LS_KEY_CORRECT);
-      attempts += 1;
-      if (correctChoice === 'either' || choice === correctChoice) {
-        correct += 1;
-      }
-      setStat(LS_KEY_ATTEMPTS, attempts);
-      setStat(LS_KEY_CORRECT, correct);
-      updateTimelineStatsDisplay();
-
-      // Feedback
-      if (correctChoice === 'either') {
-        feedbackEl.textContent = 'These are basically the same moment in time—focus on how they connect.';
-      } else if (choice === correctChoice) {
-        feedbackEl.textContent = 'Yep. Now ask yourself: how might the earlier event have helped cause or shape the later one?';
-      } else {
-        feedbackEl.textContent = 'Not quite. Try again, then think: what had to exist before the other could happen?';
-      }
-    }
-
-    if (btnA && btnB && btnNewPair) {
-      btnA.addEventListener('click', () => checkAnswer('A'));
-      btnB.addEventListener('click', () => checkAnswer('B'));
-      btnNewPair.addEventListener('click', pickNewPair);
-      pickNewPair();
-    }
-
-    updateTimelineStatsDisplay();
-
-    // Loader: fade out once everything is ready
-    window.addEventListener('load', () => {
-      const loader = document.getElementById('loader');
-      if (loader) {
-        loader.classList.add('loader-hidden');
-        setTimeout(() => {
-          loader.style.display = 'none';
-        }, 400);
-      }
+    videoSearchInput.addEventListener('input', () => {
+      const results = searchVideos(videoSearchInput.value).slice(0, 10);
+      renderVideoResults(results);
     });
+
+    videoFrame.addEventListener('load', () => {
+      videoLoading.style.display = 'none';
+    });
+
+    // Initial state: default to Foner Market Revolution and some suggested videos
+    playVideo(videoLibrary.findIndex(v => v.title === "Eric Foner on the Market Revolution"));
+    renderVideoResults(searchVideos("")); // default suggestions
   </script>
 </body>
 </html>
