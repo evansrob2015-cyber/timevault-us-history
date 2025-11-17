@@ -679,6 +679,23 @@
       color: var(--text-muted);
     }
 
+    /* Video wrapper */
+    .video-wrapper {
+      margin-top: 8px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(31, 41, 55, 0.8);
+      background: #000;
+    }
+
+    .video-wrapper iframe {
+      width: 100%;
+      height: 0;
+      border: 0;
+      display: block;
+      aspect-ratio: 16 / 9;
+    }
+
     /* LOADER OVERLAY */
     .loader-overlay {
       position: fixed;
@@ -782,6 +799,10 @@
             <span class="icon">🎮</span>
             <span>Mini-Games</span>
           </div>
+          <div class="nav-item" data-section="timeline">
+            <span class="icon">📅</span>
+            <span>Timeline Lab</span>
+          </div>
           <div class="nav-item" data-section="flashcards">
             <span class="icon">🧠</span>
             <span>Flashcards Lab</span>
@@ -839,7 +860,7 @@
           <div class="section active" id="section-home">
             <p class="tag-muted">Pick your next move. Each session keeps you in bounds with your school&apos;s AI policy while actually making history stick.</p>
             <div class="unit-grid" style="margin-top:10px;">
-              <!-- New: Market Revolution featured module -->
+              <!-- Market Revolution featured module -->
               <div class="unit-card">
                 <div class="unit-chip">Current Unit</div>
                 <div class="unit-title">Impact of the Market Revolution</div>
@@ -895,6 +916,33 @@
                   <div class="progress-bar-fill" style="width:15%"></div>
                 </div>
               </div>
+            </div>
+
+            <!-- Market Revolution Video + Channels -->
+            <div class="card" style="margin-top:12px; padding:10px 12px;">
+              <div class="card-header">
+                <span class="card-title">Watch &amp; Think: Market Revolution</span>
+                <span class="pill">Parent-curated clip</span>
+              </div>
+              <p class="tag-muted">
+                Use a short video to anchor the story. As you watch, jot down: 2 ways work changed, 1 thing that stayed the same.
+              </p>
+              <div class="video-wrapper">
+                <!-- Replace VIDEO_ID_HERE with a video from one of the channels below -->
+                <iframe
+                  src="https://www.youtube.com/embed/VIDEO_ID_HERE"
+                  title="Market Revolution overview"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <p style="margin-top:8px; font-size:0.8rem; color:var(--text-muted);">
+                Suggested channels to choose from:
+                <strong>The Gilder Lehrman Institute of American History</strong>,
+                <strong>ColumbiaLearn</strong>,
+                <strong>Big Think</strong>,
+                <strong>National Constitution Center</strong>,
+                <strong>Norton History</strong>.
+              </p>
             </div>
           </div>
 
@@ -994,6 +1042,51 @@
             </div>
           </div>
 
+          <!-- TIMELINE SECTION -->
+          <div class="section" id="section-timeline">
+            <p class="tag-muted">
+              Practice your chronological reasoning. Start with the Market Revolution, then we can add more eras.
+            </p>
+
+            <div class="card" style="margin-top:8px; padding:10px 12px;">
+              <div class="card-header">
+                <span class="card-title">Market Revolution Timeline</span>
+                <span class="pill">1815–1840 (approx.)</span>
+              </div>
+              <p style="font-size:0.82rem; color:var(--text-muted);">
+                These are simplified anchor events to help you keep the big picture straight. Dates are rounded to keep it manageable.
+              </p>
+              <ul id="timeline-list" style="margin-top:8px; list-style:none; font-size:0.8rem; color:var(--text-muted);">
+                <!-- JS will fill this in -->
+              </ul>
+              <p style="margin-top:8px; font-size:0.78rem; color:var(--text-muted);">
+                Hint: Try telling the story out loud in 3–4 sentences using these dates as your backbone.
+              </p>
+            </div>
+
+            <div class="card" style="margin-top:10px; padding:10px 12px;">
+              <div class="card-header">
+                <span class="card-title">Which Came First?</span>
+                <span class="pill" id="timeline-progress-pill">Timeline practice: 0 attempts</span>
+              </div>
+              <p style="font-size:0.8rem; color:var(--text-muted);">
+                You&apos;ll see two events. Choose which one happened first. No grades, just reps. Your streak lives in this browser only (local to this device).
+              </p>
+              <div style="margin-top:8px; font-size:0.9rem;">
+                <div id="eventA" style="margin-bottom:6px;">Event A</div>
+                <div id="eventB" style="margin-bottom:6px;">Event B</div>
+              </div>
+              <div style="margin-top:6px; display:flex; gap:8px; flex-wrap:wrap;">
+                <button id="btnA" class="btn-ghost">A came first</button>
+                <button id="btnB" class="btn-ghost">B came first</button>
+                <button id="btnNewPair" class="btn-ghost">New pair</button>
+              </div>
+              <p id="timeline-feedback" style="margin-top:8px; font-size:0.8rem; color:var(--accent-strong);">
+                Pick an answer to check yourself.
+              </p>
+            </div>
+          </div>
+
           <!-- FLASHCARDS SECTION -->
           <div class="section" id="section-flashcards">
             <p class="tag-muted">Tap to flip. These are examples of how the flashcard lab works — always pushing you to explain ideas, not just peek at answers.</p>
@@ -1071,23 +1164,23 @@
               <div class="card" style="padding:10px 12px;">
                 <div class="card-header">
                   <span class="card-title">Progress Overview</span>
-                  <span class="pill">Sample Data</span>
+                  <span class="pill">Local to this device</span>
                 </div>
                 <div class="metric-row">
-                  <span class="metric-label">Overall practice completion</span>
-                  <span class="metric-value">42%</span>
+                  <span class="metric-label">Timeline questions attempted</span>
+                  <span class="metric-value" id="parent-timeline-attempts">0</span>
                 </div>
                 <div class="metric-row">
-                  <span class="metric-label">Timeline confidence</span>
-                  <span class="metric-value">Medium</span>
+                  <span class="metric-label">Timeline questions correct</span>
+                  <span class="metric-value" id="parent-timeline-correct">0</span>
                 </div>
                 <div class="metric-row">
-                  <span class="metric-label">Primary source skills</span>
-                  <span class="metric-value" style="color:var(--good);">Improving</span>
+                  <span class="metric-label">Estimated timeline accuracy</span>
+                  <span class="metric-value" id="parent-timeline-accuracy">–</span>
                 </div>
                 <div class="metric-row">
                   <span class="metric-label">Last session length</span>
-                  <span class="metric-value">18 min</span>
+                  <span class="metric-value">Sample: 18 min</span>
                 </div>
                 <div class="sass-meter">
                   <span>Sass Meter: Engagement vibe</span>
@@ -1124,8 +1217,9 @@
               <span class="tag-muted">Suggested path:</span>
               <ul style="margin-top:4px; list-style:none;">
                 <li style="padding:3px 0;">1. ⚙️ Impact of the Market Revolution module</li>
-                <li style="padding:3px 0;">2. 🧠 Flashcard Sprint: Founding Documents</li>
-                <li style="padding:3px 0;">3. 📜 DBQ Move Map walkthrough</li>
+                <li style="padding:3px 0;">2. 📅 Timeline Lab: Which Came First?</li>
+                <li style="padding:3px 0;">3. 🧠 Flashcard Sprint: Founding Documents</li>
+                <li style="padding:3px 0;">4. 📜 DBQ Move Map walkthrough</li>
               </ul>
             </div>
           </div>
@@ -1141,6 +1235,7 @@
       home: document.getElementById('section-home'),
       units: document.getElementById('section-units'),
       games: document.getElementById('section-games'),
+      timeline: document.getElementById('section-timeline'),
       flashcards: document.getElementById('section-flashcards'),
       dbq: document.getElementById('section-dbq'),
       parent: document.getElementById('section-parent')
@@ -1153,6 +1248,7 @@
       home: 'Welcome back, Kali. Where do you want to jump today?',
       units: 'See the whole course like a map instead of a fog.',
       games: 'Play your way into understanding. Zero grades, maximum reps.',
+      timeline: 'Train your brain to feel the order of events, not just memorize dates.',
       flashcards: 'Turn memorizing dust into quick, repeatable recall practice.',
       dbq: 'Learn the DBQ moves so class day feels less mysterious.',
       parent: 'High-level patterns so grown-ups can support without hovering.'
@@ -1249,6 +1345,134 @@
         guideBubble.textContent = guideMessages[key];
       });
     });
+
+    // ---- Timeline Lab: Market Revolution + localStorage tracking ----
+    const marketEvents = [
+      { year: 1815, label: 'End of the War of 1812; postwar expansion begins' },
+      { year: 1817, label: 'Construction of the Erie Canal begins' },
+      { year: 1825, label: 'Erie Canal opens, linking Great Lakes to New York City' },
+      { year: 1828, label: 'Baltimore & Ohio Railroad chartered' },
+      { year: 1831, label: 'Cyrus McCormick patents early mechanical reaper' },
+      { year: 1834, label: 'Lowell mill strike highlights factory labor tensions' },
+      { year: 1837, label: 'Panic of 1837 rocks the U.S. economy' }
+    ];
+
+    const timelineList = document.getElementById('timeline-list');
+    const eventAEl = document.getElementById('eventA');
+    const eventBEl = document.getElementById('eventB');
+    const feedbackEl = document.getElementById('timeline-feedback');
+    const btnA = document.getElementById('btnA');
+    const btnB = document.getElementById('btnB');
+    const btnNewPair = document.getElementById('btnNewPair');
+    const timelineProgressPill = document.getElementById('timeline-progress-pill');
+
+    const parentAttemptsEl = document.getElementById('parent-timeline-attempts');
+    const parentCorrectEl = document.getElementById('parent-timeline-correct');
+    const parentAccuracyEl = document.getElementById('parent-timeline-accuracy');
+
+    // localStorage keys
+    const LS_KEY_ATTEMPTS = 'timevault_timeline_attempts';
+    const LS_KEY_CORRECT = 'timevault_timeline_correct';
+
+    function getStat(key) {
+      const raw = localStorage.getItem(key);
+      const n = parseInt(raw, 10);
+      return isNaN(n) ? 0 : n;
+    }
+
+    function setStat(key, value) {
+      localStorage.setItem(key, String(value));
+    }
+
+    function updateTimelineStatsDisplay() {
+      const attempts = getStat(LS_KEY_ATTEMPTS);
+      const correct = getStat(LS_KEY_CORRECT);
+      if (timelineProgressPill) {
+        if (attempts === 0) {
+          timelineProgressPill.textContent = 'Timeline practice: 0 attempts';
+        } else {
+          timelineProgressPill.textContent = `Timeline practice: ${attempts} attempts`;
+        }
+      }
+      if (parentAttemptsEl) parentAttemptsEl.textContent = attempts;
+      if (parentCorrectEl) parentCorrectEl.textContent = correct;
+      if (parentAccuracyEl) {
+        if (attempts === 0) {
+          parentAccuracyEl.textContent = '–';
+        } else {
+          const pct = Math.round((correct / attempts) * 100);
+          parentAccuracyEl.textContent = pct + '%';
+        }
+      }
+    }
+
+    // Render ordered timeline
+    if (timelineList) {
+      const sorted = [...marketEvents].sort((a, b) => a.year - b.year);
+      sorted.forEach(ev => {
+        const li = document.createElement('li');
+        li.textContent = ev.year + ' — ' + ev.label;
+        li.style.padding = '3px 0';
+        timelineList.appendChild(li);
+      });
+    }
+
+    let currentPair = null;
+
+    function pickNewPair() {
+      const aIndex = Math.floor(Math.random() * marketEvents.length);
+      let bIndex = Math.floor(Math.random() * marketEvents.length);
+      while (bIndex === aIndex) {
+        bIndex = Math.floor(Math.random() * marketEvents.length);
+      }
+      const a = marketEvents[aIndex];
+      const b = marketEvents[bIndex];
+      currentPair = { a, b };
+      if (eventAEl && eventBEl && feedbackEl) {
+        eventAEl.textContent = 'A) ' + a.label + ' (' + a.year + ')';
+        eventBEl.textContent = 'B) ' + b.label + ' (' + b.year + ')';
+        feedbackEl.textContent = 'Pick an answer to check yourself.';
+        feedbackEl.style.color = 'var(--accent-strong)';
+      }
+    }
+
+    function checkAnswer(choice) {
+      if (!currentPair || !feedbackEl) return;
+      const { a, b } = currentPair;
+      let correctChoice = null;
+      if (a.year < b.year) correctChoice = 'A';
+      else if (b.year < a.year) correctChoice = 'B';
+      else correctChoice = 'either';
+
+      // Update stats
+      let attempts = getStat(LS_KEY_ATTEMPTS);
+      let correct = getStat(LS_KEY_CORRECT);
+      attempts += 1;
+      if (correctChoice === 'either' || choice === correctChoice) {
+        correct += 1;
+      }
+      setStat(LS_KEY_ATTEMPTS, attempts);
+      setStat(LS_KEY_CORRECT, correct);
+      updateTimelineStatsDisplay();
+
+      // Feedback
+      if (correctChoice === 'either') {
+        feedbackEl.textContent = 'These are basically the same moment in time—focus on how they connect.';
+      } else if (choice === correctChoice) {
+        feedbackEl.textContent = 'Yep. Now ask yourself: how might the earlier event have helped cause or shape the later one?';
+      } else {
+        feedbackEl.textContent = 'Not quite. Try again, then think: what had to exist before the other could happen?';
+      }
+    }
+
+    if (btnA && btnB && btnNewPair) {
+      btnA.addEventListener('click', () => checkAnswer('A'));
+      btnB.addEventListener('click', () => checkAnswer('B'));
+      btnNewPair.addEventListener('click', pickNewPair);
+      pickNewPair();
+    }
+
+    updateTimelineStatsDisplay();
 
     // Loader: fade out once everything is ready
     window.addEventListener('load', () => {
