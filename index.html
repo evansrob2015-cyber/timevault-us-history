@@ -39,37 +39,7 @@
       align-items: stretch;
     }
 
-    /* LOADER */
-    .loader-overlay {
-      position: fixed;
-      inset: 0;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      transition: opacity 0.4s ease;
-    }
-
-    .loader-hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .loader-orb {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: conic-gradient(from 0deg, #fbbf24, #f97316, #22d3ee, #fbbf24);
-      animation: spin 1.6s linear infinite;
-      box-shadow: 0 0 28px rgba(251,191,36,0.7);
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* MAIN APP */
+    /* APP SHELL */
     .app-shell {
       width: 100%;
       max-width: 1280px;
@@ -83,14 +53,37 @@
     }
 
     @media (max-width: 900px) {
-      body { padding: 8px; }
-      .app-shell { grid-template-columns: 1fr; }
+      body {
+        padding: 8px;
+      }
+      .app-shell {
+        grid-template-columns: 1fr;
+      }
       .sidebar {
         flex-direction: row;
         overflow-x: auto;
         white-space: nowrap;
       }
-      .nav-group-title { display: none; }
+      .nav-group-title {
+        display: none;
+      }
+    }
+
+    /* Extra small-screen tweaks (iPhone-ish) */
+    @media (max-width: 600px) {
+      .app-shell {
+        max-width: 100%;
+        border-radius: 0;
+      }
+      .main-pane {
+        padding: 12px 10px 14px;
+      }
+      .card {
+        padding: 10px 12px;
+      }
+      .top-title h1 {
+        font-size: 1.1rem;
+      }
     }
 
     /* SIDEBAR */
@@ -116,6 +109,17 @@
       border-radius: 50%;
       background: conic-gradient(from 210deg, #fbbf24, #f97316, #22d3ee, #fbbf24);
       box-shadow: 0 0 18px rgba(251, 191, 36, 0.7);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.7rem;
+      color: #020617;
+    }
+
+    .brand-orb::after {
+      content: "TV";
     }
 
     .brand-text-main {
@@ -204,7 +208,7 @@
       background: var(--good);
     }
 
-    /* MAIN */
+    /* MAIN PANE */
     .main-pane {
       padding: 18px 22px 20px;
       display: flex;
@@ -246,6 +250,10 @@
       border: 1px solid rgba(34, 197, 94, 0.5);
     }
 
+    .streak-chip span.emoji {
+      font-size: 1rem;
+    }
+
     .layout-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.9fr);
@@ -253,7 +261,9 @@
     }
 
     @media (max-width: 900px) {
-      .layout-grid { grid-template-columns: 1fr; }
+      .layout-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .card {
@@ -264,45 +274,529 @@
       box-shadow: 0 14px 40px rgba(15, 23, 42, 0.7);
     }
 
-    /* Units, flashcards, games, parent view */
-    /* (same as earlier version—keeping it short here because GitHub Pages accepts it) */
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 10px;
+    }
 
+    .card-title {
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .pill {
+      border-radius: var(--radius-pill);
+      padding: 3px 9px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .tab-strip {
+      display: inline-flex;
+      gap: 6px;
+      padding: 3px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      margin-bottom: 10px;
+    }
+
+    .tab-btn {
+      border-radius: 999px;
+      border: none;
+      padding: 4px 12px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-muted);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.18), rgba(56, 189, 248, 0.1));
+      color: var(--text-main);
+    }
+
+    .section {
+      display: none;
+      margin-top: 2px;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .unit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .unit-card {
+      border-radius: 14px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 10px 10px 9px;
+      background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95));
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .unit-chip {
+      font-size: 0.7rem;
+      color: var(--accent-strong);
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+    }
+
+    .unit-title {
+      margin-top: 3px;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .unit-meta {
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .progress-bar-shell {
+      margin-top: 7px;
+      width: 100%;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 1);
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #22c55e, #facc15);
+      width: 32%;
+    }
+
+    .unit-card::after {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at top left, rgba(251, 191, 36, 0.14), transparent 50%);
+      opacity: 0;
+      transition: opacity 0.2s ease-out;
+      pointer-events: none;
+    }
+
+    .unit-card:hover::after {
+      opacity: 1;
+    }
+
+    /* Mini-games list */
+    .game-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .game-card {
+      border-radius: 14px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 10px 11px;
+      background: radial-gradient(circle at top, #020617, #020617 55%, #0b1120 100%);
+      position: relative;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 999px;
+      padding: 2px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent-strong);
+    }
+
+    .game-title {
+      margin-top: 5px;
+      font-weight: 600;
+      font-size: 0.98rem;
+    }
+
+    .game-desc {
+      margin-top: 5px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .pill-row {
+      margin-top: 7px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pill-sm {
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      padding: 2px 8px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* Flashcards */
+    .flashcard-shell {
+      margin-top: 6px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.2fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .flashcard-shell {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .flashcard {
+      border-radius: 16px;
+      padding: 20px 16px 18px;
+      border: 1px solid rgba(55, 65, 81, 1);
+      background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.98));
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .flashcard-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .flashcard-term {
+      margin-top: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .flashcard-body {
+      margin-top: 8px;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .flashcard-tip {
+      margin-top: 12px;
+      font-size: 0.78rem;
+      color: var(--accent-strong);
+    }
+
+    .flashcard-footer {
+      margin-top: 14px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-main);
+      font-size: 0.75rem;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent-strong);
+      color: var(--accent-strong);
+    }
+
+    .guide-panel {
+      border-radius: 16px;
+      padding: 14px 14px 12px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.15), rgba(15, 23, 42, 0.96));
+      position: relative;
+    }
+
+    .guide-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top left, #22d3ee, #0ea5e9, #1d4ed8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .guide-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .guide-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .guide-tag {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .guide-bubble {
+      margin-top: 6px;
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
+    .guide-cta-row {
+      margin-top: 9px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .guide-chip {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      padding: 3px 9px;
+      font-size: 0.74rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .guide-chip:hover {
+      border-color: var(--accent-strong);
+      color: var(--accent-strong);
+    }
+
+    /* Parent dashboard */
+    .parent-grid {
+      margin-top: 6px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .parent-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      margin: 4px 0;
+    }
+
+    .metric-label {
+      color: var(--text-muted);
+    }
+
+    .metric-value {
+      font-weight: 600;
+    }
+
+    .question-list {
+      margin-top: 8px;
+      list-style: none;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .question-list li {
+      padding: 4px 0;
+    }
+
+    .question-list li::before {
+      content: "★";
+      margin-right: 6px;
+      color: var(--accent-strong);
+      font-size: 0.75rem;
+    }
+
+    .sass-meter {
+      margin-top: 8px;
+      border-radius: 14px;
+      padding: 8px 10px;
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sass-bar-shell {
+      width: 120px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 1);
+      overflow: hidden;
+    }
+
+    .sass-bar-fill {
+      width: 48%;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #e879f9, #f97316);
+    }
+
+    .tag-muted {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* LOADER OVERLAY */
+    .loader-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, #020617, #000);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 40;
+    }
+
+    .loader-inner {
+      text-align: center;
+      padding: 24px 22px;
+      border-radius: 20px;
+      background: radial-gradient(circle at top left, #111827, #020617);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+    }
+
+    .loader-orb {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      margin: 0 auto 10px;
+      background: conic-gradient(from 210deg, #fbbf24, #f97316, #22d3ee, #fbbf24);
+      box-shadow: 0 0 22px rgba(251, 191, 36, 0.85);
+      position: relative;
+      overflow: hidden;
+      animation: spin 1.4s linear infinite;
+    }
+
+    .loader-orb::after {
+      content: "TV";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: #020617;
+    }
+
+    .loader-text-main {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .loader-text-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .loader-hidden {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease-out;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
   </style>
 </head>
-
 <body>
-
   <!-- LOADER -->
   <div id="loader" class="loader-overlay">
-    <div class="loader-orb"></div>
+    <div class="loader-inner">
+      <div class="loader-orb"></div>
+      <div class="loader-text-main">Spinning up TimeVault for Kali…</div>
+      <div class="loader-text-sub">Loading flashcards, mini-games, and DBQ moves. No homework writing, promise.</div>
+    </div>
   </div>
 
-  <!-- APP -->
   <div class="app-shell">
-
-    <!-- SIDEBAR -->
+    <!-- Sidebar -->
     <aside class="sidebar">
       <div>
         <div class="brand">
           <div class="brand-orb"></div>
           <div>
-            <div class="brand-text-main">TimeVault</div>
-            <div class="brand-text-sub">Kali’s US History Lab</div>
+            <div class="brand-text-main">TimeVault US History</div>
+            <div class="brand-text-sub">Kali’s practice lab • Curiosity • Integrity</div>
           </div>
         </div>
-
         <div class="nav-group-title">Learn</div>
         <div class="nav-list">
-          <div class="nav-item active" data-section="home"><span class="icon">🏠</span>Home</div>
-          <div class="nav-item" data-section="units"><span class="icon">📚</span>Units & Themes</div>
-          <div class="nav-item" data-section="games"><span class="icon">🎮</span>Mini-Games</div>
-          <div class="nav-item" data-section="flashcards"><span class="icon">🧠</span>Flashcards</div>
-          <div class="nav-item" data-section="dbq"><span class="icon">📜</span>DBQ Lab</div>
+          <div class="nav-item active" data-section="home">
+            <span class="icon">🏠</span>
+            <span>Home</span>
+          </div>
+          <div class="nav-item" data-section="units">
+            <span class="icon">📚</span>
+            <span>Units & Themes</span>
+          </div>
+          <div class="nav-item" data-section="games">
+            <span class="icon">🎮</span>
+            <span>Mini-Games</span>
+          </div>
+          <div class="nav-item" data-section="flashcards">
+            <span class="icon">🧠</span>
+            <span>Flashcards Lab</span>
+          </div>
+          <div class="nav-item" data-section="dbq">
+            <span class="icon">📜</span>
+            <span>DBQ Skills Lab</span>
+          </div>
         </div>
-
         <div class="nav-group-title" style="margin-top:16px;">Family</div>
         <div class="nav-list">
-          <div class="nav-item" data-section="parent"><span class="icon">👨‍👧</span>Parent View</div>
+          <div class="nav-item" data-section="parent">
+            <span class="icon">👨‍👧</span>
+            <span>Parent View</span>
+          </div>
         </div>
       </div>
 
@@ -311,91 +805,337 @@
           <div class="footer-pill-dot"></div>
           <span>AI Tutor Mode • No Homework Writing</span>
         </div>
-        <div>This tool coaches Kali’s thinking—not her assignments.</div>
+        <div>
+          This space is for practice, curiosity, and skill-building. Anything that looks like a graded assignment? We walk you <em>through</em> it, not <em>do</em> it.
+        </div>
       </div>
     </aside>
 
-    <!-- MAIN -->
+    <!-- Main -->
     <main class="main-pane">
       <header class="top-header">
         <div class="top-title">
           <h1 id="page-title">Home</h1>
           <p id="page-subtitle">Welcome back, Kali. Where do you want to jump today?</p>
         </div>
-        <div class="streak-chip">🔥 3-day streak</div>
+        <div class="streak-chip" title="Study streak">
+          <span class="emoji">🔥</span>
+          <span>3-day streak • Keep going</span>
+        </div>
       </header>
 
       <div class="layout-grid">
-
-        <!-- LEFT COLUMN -->
+        <!-- LEFT COLUMN: dynamic content -->
         <section class="card">
+          <div class="card-header">
+            <span class="card-title">Learning Mode</span>
+            <div class="tab-strip">
+              <button class="tab-btn active" data-home-tab="micro">Micro Burst</button>
+              <button class="tab-btn" data-home-tab="deep">Deep Dive</button>
+            </div>
+          </div>
 
-          <!-- Home Section -->
+          <!-- HOME SECTION -->
           <div class="section active" id="section-home">
-            <p>Pick something quick or go deeper. Tiny reps beat giant crams.</p>
-
-            <div class="unit-grid" style="margin-top:12px;">
-
-              <!-- Market Revolution Module -->
+            <p class="tag-muted">Pick your next move. Each session keeps you in bounds with your school&apos;s AI policy while actually making history stick.</p>
+            <div class="unit-grid" style="margin-top:10px;">
+              <!-- New: Market Revolution featured module -->
               <div class="unit-card">
-                <div class="unit-chip">New</div>
+                <div class="unit-chip">Current Unit</div>
                 <div class="unit-title">Impact of the Market Revolution</div>
                 <div class="unit-meta">
-                  <span>Mini-scene + practice</span><span>⚙️</span>
+                  <span>Concept map &amp; quick quiz</span>
+                  <span>⚙️</span>
                 </div>
-                <div class="progress-bar-shell"><div class="progress-bar-fill" style="width:10%"></div></div>
+                <div class="progress-bar-shell">
+                  <div class="progress-bar-fill" style="width:10%"></div>
+                </div>
               </div>
-
               <div class="unit-card">
                 <div class="unit-chip">5–7 min</div>
-                <div class="unit-title">Warm-Up Timeline</div>
-                <div class="unit-meta"><span>Ordering game</span><span>🎮</span></div>
-                <div class="progress-bar-shell"><div class="progress-bar-fill" style="width:45%"></div></div>
+                <div class="unit-title">Warm-Up Timeline: Colonies → Revolution</div>
+                <div class="unit-meta">
+                  <span>Quick ordering game</span>
+                  <span>🎮</span>
+                </div>
+                <div class="progress-bar-shell">
+                  <div class="progress-bar-fill" style="width:45%"></div>
+                </div>
               </div>
-
               <div class="unit-card">
                 <div class="unit-chip">10 min</div>
-                <div class="unit-title">Founding Documents Flash Sprint</div>
-                <div class="unit-meta"><span>Fast recall</span><span>🧠</span></div>
-                <div class="progress-bar-shell"><div class="progress-bar-fill" style="width:28%"></div></div>
+                <div class="unit-title">Flashcard Sprint: Founding Documents</div>
+                <div class="unit-meta">
+                  <span>Spaced repetition</span>
+                  <span>🧠</span>
+                </div>
+                <div class="progress-bar-shell">
+                  <div class="progress-bar-fill" style="width:28%"></div>
+                </div>
               </div>
-
+              <div class="unit-card">
+                <div class="unit-chip">15–20 min</div>
+                <div class="unit-title">Mini-Scene: Voices of Reconstruction</div>
+                <div class="unit-meta">
+                  <span>Cinematic module</span>
+                  <span>🎬</span>
+                </div>
+                <div class="progress-bar-shell">
+                  <div class="progress-bar-fill" style="width:60%"></div>
+                </div>
+              </div>
+              <div class="unit-card">
+                <div class="unit-chip">Skill</div>
+                <div class="unit-title">Study Hack: How to Preview a Foner Chapter</div>
+                <div class="unit-meta">
+                  <span>Coaching only</span>
+                  <span>🧭</span>
+                </div>
+                <div class="progress-bar-shell">
+                  <div class="progress-bar-fill" style="width:15%"></div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Units Section -->
+          <!-- UNITS SECTION -->
           <div class="section" id="section-units">
-            <p>Select an era to explore.</p>
-
+            <p class="tag-muted">Jump by era or theme. These are tuned to the <em>Give Me Liberty</em> sequence but only used for practice and understanding.</p>
             <div class="unit-grid">
-
+              <div class="unit-card">
+                <div class="unit-chip">Unit 1</div>
+                <div class="unit-title">Pre-Columbian Worlds &amp; First Contacts</div>
+                <div class="unit-meta">
+                  <span>Maps • Sources</span>
+                  <span>🌎</span>
+                </div>
+                <div class="progress-bar-shell"><div class="progress-bar-fill" style="width:22%"></div></div>
+              </div>
               <div class="unit-card">
                 <div class="unit-chip">Unit 2</div>
-                <div class="unit-title">Market Revolution</div>
-                <div class="unit-meta"><span>Economy • Society</span><span>⚙️</span></div>
-                <div class="progress-bar-shell"><div class="progress-bar-fill" style="width:12%"></div></div>
+                <div class="unit-title">Market Revolution &amp; New Economies</div>
+                <div class="unit-meta">
+                  <span>Labor • Technology</span>
+                  <span>⚙️</span>
+                </div>
+                <div class="progress-bar-shell"><div class="progress-bar-fill" style="width:5%"></div></div>
               </div>
-
+              <div class="unit-card">
+                <div class="unit-chip">Unit 3</div>
+                <div class="unit-title">Revolution &amp; the Experiment of 1787</div>
+                <div class="unit-meta">
+                  <span>Debates • Games</span>
+                  <span>⚖️</span>
+                </div>
+                <div class="progress-bar-shell"><div class="progress-bar-fill" style="width:55%"></div></div>
+              </div>
+              <div class="unit-card">
+                <div class="unit-chip">Theme</div>
+                <div class="unit-title">Liberty vs. Equality Across Time</div>
+                <div class="unit-meta">
+                  <span>Comparative practice</span>
+                  <span>🧷</span>
+                </div>
+                <div class="progress-bar-shell"><div class="progress-bar-fill" style="width:35%"></div></div>
+              </div>
+              <div class="unit-card">
+                <div class="unit-chip">Theme</div>
+                <div class="unit-title">Migration &amp; Borders</div>
+                <div class="unit-meta">
+                  <span>Case studies</span>
+                  <span>🧳</span>
+                </div>
+                <div class="progress-bar-shell"><div class="progress-bar-fill" style="width:18%"></div></div>
+              </div>
             </div>
           </div>
 
-          <!-- Mini-Games, Flashcards, DBQ, Parent View — unchanged from previous version -->
+          <!-- MINI-GAMES SECTION -->
+          <div class="section" id="section-games">
+            <p class="tag-muted">Pick a game. You bring the brain; TimeVault brings the weirdly specific challenges.</p>
+            <div class="game-list">
+              <div class="game-card">
+                <div class="badge"><span class="badge-dot"></span>Reading Skill</div>
+                <div class="game-title">Decode the Primary Source</div>
+                <div class="game-desc">You&apos;re given a short document. Identify audience, purpose, and possible bias—no essays, just click-and-think.</div>
+                <div class="pill-row">
+                  <div class="pill-sm">Sourcing</div>
+                  <div class="pill-sm">Context</div>
+                  <div class="pill-sm">Practice mode</div>
+                </div>
+              </div>
+              <div class="game-card">
+                <div class="badge"><span class="badge-dot"></span>Strategy</div>
+                <div class="game-title">Choose Your Colony</div>
+                <div class="game-desc">Balance geography, economy, and politics to see how different colonies evolve. No grades, just consequences.</div>
+                <div class="pill-row">
+                  <div class="pill-sm">Colonial era</div>
+                  <div class="pill-sm">Cause &amp; effect</div>
+                </div>
+              </div>
+              <div class="game-card">
+                <div class="badge"><span class="badge-dot"></span>Timeline</div>
+                <div class="game-title">Reconstruct the Road to War</div>
+                <div class="game-desc">Drag events into order to see how small decisions snowball into big conflicts.</div>
+                <div class="pill-row">
+                  <div class="pill-sm">WWI / WWII</div>
+                  <div class="pill-sm">Chronology</div>
+                </div>
+              </div>
+              <div class="game-card">
+                <div class="badge"><span class="badge-dot"></span>Media Literacy</div>
+                <div class="game-title">Spot the Propaganda</div>
+                <div class="game-desc">Analyze posters and headlines; choose what message they&apos;re selling and to whom.</div>
+                <div class="pill-row">
+                  <div class="pill-sm">Visual sources</div>
+                  <div class="pill-sm">Bias</div>
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <!-- FLASHCARDS SECTION -->
+          <div class="section" id="section-flashcards">
+            <p class="tag-muted">Tap to flip. These are examples of how the flashcard lab works — always pushing you to explain ideas, not just peek at answers.</p>
+            <div class="flashcard-shell">
+              <div class="flashcard" id="flashcard">
+                <div class="flashcard-label">Term</div>
+                <div class="flashcard-term" id="flashcard-term">Republican Motherhood</div>
+                <div class="flashcard-body" id="flashcard-body">Tap to reveal what this meant for women&apos;s role in the early republic.</div>
+                <div class="flashcard-tip">Pro tip: When you make your own cards, always include a "Why does this matter?" line.</div>
+                <div class="flashcard-footer">
+                  <span>Deck: Early Republic • Card 4 / 20</span>
+                  <button class="btn-ghost" id="next-card">Next example ▸</button>
+                </div>
+              </div>
+              <div class="guide-panel">
+                <div class="guide-header">
+                  <div class="guide-avatar">🧑🏽‍🏫</div>
+                  <div>
+                    <div class="guide-name">Nova, Your Historian Guide</div>
+                    <div class="guide-tag">"I&apos;m here to coach your brain, not steal your homework."</div>
+                  </div>
+                </div>
+                <div class="guide-bubble" id="guide-bubble">
+                  Click the card once and try to say the answer out loud before you peek. Your brain loves being dramatic about recall.
+                </div>
+                <div class="guide-cta-row">
+                  <button class="guide-chip" data-guide="strategy">How should I review a Foner chapter?</button>
+                  <button class="guide-chip" data-guide="dbq">What does a DBQ actually want from me?</button>
+                  <button class="guide-chip" data-guide="policy">What can you NOT do for me?</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DBQ SECTION -->
+          <div class="section" id="section-dbq">
+            <p class="tag-muted">This lab explains DBQs and lets you practice the thinking moves—never the final writing.</p>
+            <div class="flashcard-shell">
+              <div class="guide-panel">
+                <div class="guide-header">
+                  <div class="guide-avatar">📜</div>
+                  <div>
+                    <div class="guide-name">DBQ Move Map</div>
+                    <div class="guide-tag">Six steps, zero cheating.</div>
+                  </div>
+                </div>
+                <div class="guide-bubble">
+                  1. Read the prompt. 2. Time travel in your head: what era, what themes? 3. Skim the docs for voices + perspectives. 4. Group them. 5. Plan a claim. 6. <em>Then</em> write—in your own words, outside this platform.
+                </div>
+                <div class="guide-cta-row">
+                  <div class="guide-chip">View sample document set</div>
+                  <div class="guide-chip">Practice grouping docs</div>
+                  <div class="guide-chip">See thesis shapes (no full thesis)</div>
+                </div>
+              </div>
+              <div class="card" style="padding:12px 14px;">
+                <div class="card-header">
+                  <span class="card-title">No-Essay Zone</span>
+                  <span class="pill" style="border-color: rgba(248, 113, 113, 0.8); color: var(--danger);">Homework Writing Blocked</span>
+                </div>
+                <p style="font-size:0.82rem; color:var(--text-muted);">
+                  Anytime you try to paste or ask for an actual DBQ paragraph, the system gently refuses and turns it into a thinking exercise instead. That keeps you aligned with Brentwood&apos;s AI policy and your teacher&apos;s rules.
+                </p>
+                <p style="font-size:0.8rem; color:var(--text-muted); margin-top:8px;">
+                  Example redirect: <em>"I can&apos;t write that paragraph for you, but I can help you list 3 possible pieces of evidence and 2 ways to analyze them."</em>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- PARENT SECTION -->
+          <div class="section" id="section-parent">
+            <p class="tag-muted">Snapshot for parents/guardians. No spying on assignments—just patterns, progress, and conversation starters.</p>
+            <div class="parent-grid">
+              <div class="card" style="padding:10px 12px;">
+                <div class="card-header">
+                  <span class="card-title">Progress Overview</span>
+                  <span class="pill">Sample Data</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Overall practice completion</span>
+                  <span class="metric-value">42%</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Timeline confidence</span>
+                  <span class="metric-value">Medium</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Primary source skills</span>
+                  <span class="metric-value" style="color:var(--good);">Improving</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Last session length</span>
+                  <span class="metric-value">18 min</span>
+                </div>
+                <div class="sass-meter">
+                  <span>Sass Meter: Engagement vibe</span>
+                  <div class="sass-bar-shell"><div class="sass-bar-fill"></div></div>
+                </div>
+              </div>
+
+              <div class="card" style="padding:10px 12px;">
+                <div class="card-header">
+                  <span class="card-title">Dinner Table Questions</span>
+                  <span class="pill">Conversation, not quizzing</span>
+                </div>
+                <ul class="question-list" id="question-list">
+                  <li>Which historical figure this week felt the most human to you, and why?</li>
+                  <li>What surprised you about how people justified slavery and freedom at the same time?</li>
+                  <li>If you had to live in one of the colonies you studied, which would you choose and what trade-offs would you accept?</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </section>
 
-        <!-- RIGHT COLUMN -->
+        <!-- RIGHT COLUMN: guide / sidebar -->
         <aside class="card">
-          <h3>Session Coach</h3>
-          <p>Try a Market Revolution warm-up, then a 5-card flash review.</p>
+          <div class="card-header">
+            <span class="card-title">Session Coach</span>
+            <span class="pill">Today: Focus on foundations</span>
+          </div>
+          <div style="font-size:0.82rem; color:var(--text-muted);">
+            <p id="session-tip">
+              Start with the Impact of the Market Revolution module, then do a 5-card flash review. Tiny reps win over heroic last-minute cram sessions.
+            </p>
+            <div style="margin-top:10px;">
+              <span class="tag-muted">Suggested path:</span>
+              <ul style="margin-top:4px; list-style:none;">
+                <li style="padding:3px 0;">1. ⚙️ Impact of the Market Revolution module</li>
+                <li style="padding:3px 0;">2. 🧠 Flashcard Sprint: Founding Documents</li>
+                <li style="padding:3px 0;">3. 📜 DBQ Move Map walkthrough</li>
+              </ul>
+            </div>
+          </div>
         </aside>
-
       </div>
     </main>
-
   </div>
 
   <script>
-    /* Navigation switching */
+    // Section switching via sidebar
     const navItems = document.querySelectorAll('.nav-item');
     const sections = {
       home: document.getElementById('section-home'),
@@ -411,35 +1151,115 @@
 
     const subtitles = {
       home: 'Welcome back, Kali. Where do you want to jump today?',
-      units: 'See the whole course like a map, not a fog.',
-      games: 'Play your way into understanding.',
-      flashcards: 'Small reps build big recall.',
-      dbq: 'Learn the moves, not the paragraphs.',
-      parent: 'Patterns, not surveillance.'
+      units: 'See the whole course like a map instead of a fog.',
+      games: 'Play your way into understanding. Zero grades, maximum reps.',
+      flashcards: 'Turn memorizing dust into quick, repeatable recall practice.',
+      dbq: 'Learn the DBQ moves so class day feels less mysterious.',
+      parent: 'High-level patterns so grown-ups can support without hovering.'
     };
 
-    navItems.forEach(i => {
-      i.addEventListener('click', () => {
-        const t = i.getAttribute('data-section');
-        navItems.forEach(n => n.classList.remove('active'));
-        i.classList.add('active');
-
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const target = item.getAttribute('data-section');
+        // Activate nav
+        navItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        // Switch sections
         Object.entries(sections).forEach(([key, el]) => {
-          el.classList.toggle('active', key === t);
+          el.classList.toggle('active', key === target);
         });
-
-        pageTitle.textContent = i.innerText.trim();
-        pageSubtitle.textContent = subtitles[t];
+        // Update title/subtitle
+        pageTitle.textContent = item.innerText.trim();
+        pageSubtitle.textContent = subtitles[target];
       });
     });
 
-    /* Loader fade-out */
+    // Home micro/deep toggle (visual only for now)
+    const homeTabs = document.querySelectorAll('[data-home-tab]');
+    homeTabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        homeTabs.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    // Simple flashcard example
+    const flashcard = document.getElementById('flashcard');
+    const termEl = document.getElementById('flashcard-term');
+    const bodyEl = document.getElementById('flashcard-body');
+    const nextBtn = document.getElementById('next-card');
+
+    const flashData = [
+      {
+        term: 'Republican Motherhood',
+        front: 'Tap to reveal what this meant for women\'s role in the early republic.',
+        back: 'The idea that women should be educated so they could raise virtuous citizens. Not political equality yet—but a step toward recognizing women\'s influence.'
+      },
+      {
+        term: 'Great Migration',
+        front: 'Tap to recall why hundreds of thousands of Black Americans moved north in the early 1900s.',
+        back: 'A mass movement out of the Jim Crow South seeking industrial jobs and a measure of safety and political voice in northern cities.'
+      },
+      {
+        term: 'Containment',
+        front: 'Tap to remember the core idea of U.S. Cold War strategy.',
+        back: 'The policy of stopping the spread of communism by supporting allies and intervening where leaders believed Soviet influence might expand.'
+      }
+    ];
+
+    let cardIndex = 0;
+    let flipped = false;
+
+    function renderCard() {
+      const card = flashData[cardIndex];
+      termEl.textContent = card.term;
+      bodyEl.textContent = flipped ? card.back : card.front;
+    }
+
+    flashcard.addEventListener('click', (e) => {
+      // avoid flipping when clicking the next button
+      if (e.target === nextBtn) return;
+      flipped = !flipped;
+      renderCard();
+    });
+
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      cardIndex = (cardIndex + 1) % flashData.length;
+      flipped = false;
+      renderCard();
+    });
+
+    renderCard();
+
+    // Guide chip interactions
+    const guideBubble = document.getElementById('guide-bubble');
+    const guideChips = document.querySelectorAll('.guide-chip');
+
+    const guideMessages = {
+      strategy: 'Preview first. Skim headings, bold terms, and the intro/conclusion. Predict the 3 big ideas before you read. Then check yourself as you go.',
+      dbq: 'A DBQ wants to see you use documents as evidence, not decoration. Your superpower: grouping docs into 2–3 buckets that support a clear claim.',
+      policy: 'I stay on the right side of your school\'s AI policy: I can explain, question, and coach—but I will not write your homework, your DBQs, or anything you submit.'
+    };
+
+    guideChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const key = chip.getAttribute('data-guide');
+        if (!key || !guideMessages[key]) return;
+        guideBubble.textContent = guideMessages[key];
+      });
+    });
+
+    // Loader: fade out once everything is ready
     window.addEventListener('load', () => {
       const loader = document.getElementById('loader');
-      loader.classList.add('loader-hidden');
-      setTimeout(() => loader.style.display = 'none', 400);
+      if (loader) {
+        loader.classList.add('loader-hidden');
+        setTimeout(() => {
+          loader.style.display = 'none';
+        }, 400);
+      }
     });
   </script>
-
 </body>
 </html>
